@@ -15,8 +15,90 @@ namespace Kosar2004
         {
             MasodikFeladat();
             HarmadikFeladat("Real Madrid");
+            NegyedikFeladat();
+            OtodikFeladat();
+            HatodikFeladat("2004.11.21");
+            HetedikFeladat();
 
             Console.ReadKey();
+        }
+
+        private static void HetedikFeladat()
+        {
+            Console.WriteLine("7. feladat: ");
+            Dictionary<string, int> stadionok = StadionokHasznalata();
+
+            foreach (var x in stadionok)
+            {
+                if (x.Value > 20)
+                {
+                    Console.WriteLine($"\t{x.Key}: {x.Value}");
+                }
+            }
+        }
+
+        private static Dictionary<string, int> StadionokHasznalata()
+        {
+            Dictionary<string, int> stadionok = new Dictionary<string, int>();
+            foreach (var x in merkozesek)
+            {
+                if (stadionok.ContainsKey(x.Helyszin))
+                {
+                    stadionok[x.Helyszin]++;
+                }
+                else
+                {
+                    stadionok.Add(x.Helyszin, 1);
+                }
+            }
+
+            return stadionok;
+        }
+
+        private static void HatodikFeladat(string keresettIdopont)
+        {
+            Console.WriteLine("6. feladat: ");
+            foreach (var x in merkozesek)
+            {
+                if (Convert.ToDateTime(keresettIdopont) == x.Idopont)
+                {
+                    Console.WriteLine($"\t{x.Hazai}-{x.Vendeg} ({x.HazaiPont}:{x.VendegPont})");
+                }
+                
+            }
+        }
+
+        private static void OtodikFeladat()
+        {
+            Console.Write("5. feladat: barcelonai csapat neve: ");
+            string csapatNev = string.Empty;
+            foreach (var x in merkozesek)
+            {
+                if (csapatNev == string.Empty && x.Hazai.Contains("Barcelona"))
+                {
+                    csapatNev = x.Hazai;
+                }
+            }
+            Console.WriteLine(csapatNev);
+        }
+
+        private static void NegyedikFeladat()
+        {
+            Console.Write("4. feladat: Volt döntetlen? ");
+            
+            int i = 0;
+            while (i < merkozesek.Count && merkozesek[i].HazaiPont != merkozesek[i].VendegPont)
+            {
+                i++;
+            }
+            if (i == merkozesek.Count)
+            {
+                Console.WriteLine("nem");
+            }
+            else
+            {
+                Console.WriteLine("igen");
+            }
         }
 
         private static void HarmadikFeladat(string keresettCsapat)
